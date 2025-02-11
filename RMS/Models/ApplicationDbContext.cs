@@ -83,7 +83,16 @@ namespace RMS.Models
             modelBuilder.Entity<SalesCommissionAgent>()
                 .Property(sca => sca.AgentId)
                 .ValueGeneratedOnAdd();
-                
+            modelBuilder.Entity<SalesCommissionAgent>()
+             .HasOne(u => u.User)
+             .WithMany(sca => sca.SalesCommissionAgents)
+             .HasForeignKey(u => u.UserId);
+            modelBuilder.Entity<SalesCommissionAgent>()
+                .HasOne(st => st.SalesTransaction)
+                .WithMany(sca => sca.SalesCommissionAgents)
+                .HasForeignKey(st => st.TransactionId);
+            ////////////////////////////////////////
+            //////////////////////////////////////
             modelBuilder.Entity<Product>()
                 .HasKey(p => p.ProductId);
                 

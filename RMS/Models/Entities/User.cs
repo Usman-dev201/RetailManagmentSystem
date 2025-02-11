@@ -13,7 +13,7 @@
         public DateTime Cretaedat { get; set; }
         public DateTime Updatedat {  get; set; }
         public virtual ICollection<SalesTransaction> SalesTransactions { get; set; } = new List<SalesTransaction>();
-
+        public virtual ICollection<SalesCommissionAgent> SalesCommissionAgents { get; set; } = new List<SalesCommissionAgent>();
 
     }
 }

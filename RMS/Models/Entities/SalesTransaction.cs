@@ -18,7 +18,7 @@ namespace RMS.Models.Entities
         public int TotalItems { get; set; }
         public int PointsPerTransaction { get; set; }
         public virtual ICollection<SalesTransactionDetail> SalesTransactionDetails { get; set; } = new List<SalesTransactionDetail>();
-
+        public virtual ICollection<SalesCommissionAgent> SalesCommissionAgents { get; set; }= new List<SalesCommissionAgent>();
     }
     public enum PaymentMethod
     {
