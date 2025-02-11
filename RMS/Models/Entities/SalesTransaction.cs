@@ -6,8 +6,11 @@ namespace RMS.Models.Entities
     public class SalesTransaction
     {
         public int TransactionId { get; set; }
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
+        
         public DateTime TransactionDateandTime { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public TransactionStatus Status { get; set; }

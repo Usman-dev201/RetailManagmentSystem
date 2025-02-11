@@ -10,7 +10,9 @@ namespace RMS.Models
         {
 
         }
-
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<SalesCommissionAgent> SalesCommissionAgents { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
@@ -55,6 +57,33 @@ namespace RMS.Models
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.UserID);
+            modelBuilder.Entity<User>()
+                .Property(u => u.UserID)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<User>()
+                .HasOne(r => r.Role)
+                .WithMany(u => u.Users)
+                .HasForeignKey(r => r.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            ///////////////////////////////////////////
+            /////////////////////////////////////////
+            
+            modelBuilder.Entity<Role>()
+                .HasKey(r=>r.RoleId);
+            modelBuilder.Entity<Role>()
+                .Property(r=>r.RoleId)
+                .ValueGeneratedOnAdd();
+            ///////////////////////////////////////////
+            ////////////////////////////////////////
+            modelBuilder.Entity<SalesCommissionAgent>()
+                .HasKey(sca => sca.AgentId);
+            modelBuilder.Entity<SalesCommissionAgent>()
+                .Property(sca => sca.AgentId)
+                .ValueGeneratedOnAdd();
+                
             modelBuilder.Entity<Product>()
                 .HasKey(p => p.ProductId);
                 
@@ -390,6 +419,11 @@ namespace RMS.Models
                 .HasOne(c =>c.Customer)
                 .WithMany(st =>st.SalesTransactions)
                 .HasForeignKey (c => c.CustomerId)
+                .OnDelete (DeleteBehavior.Restrict);
+            modelBuilder.Entity<SalesTransaction>()
+                .HasOne(u=>u.User)
+                .WithMany(st=>st.SalesTransactions)
+                .HasForeignKey (u => u.UserId)
                 .OnDelete (DeleteBehavior.Restrict);
 
             ///////////////////////////////////////////
