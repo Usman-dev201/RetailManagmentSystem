@@ -88,9 +88,9 @@ namespace RMS.Models
              .WithMany(sca => sca.SalesCommissionAgents)
              .HasForeignKey(u => u.UserId);
             modelBuilder.Entity<SalesCommissionAgent>()
-                .HasOne(st => st.SalesTransaction)
+                .HasOne(st => st.SalesTransactionDetail)
                 .WithMany(sca => sca.SalesCommissionAgents)
-                .HasForeignKey(st => st.TransactionId);
+                .HasForeignKey(st => st.TransactionDetailId);
             ////////////////////////////////////////
             //////////////////////////////////////
             modelBuilder.Entity<Product>()

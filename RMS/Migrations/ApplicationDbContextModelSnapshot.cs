@@ -699,7 +699,10 @@ namespace RMS.Migrations
                     b.Property<float>("SalesCommissionPercentage")
                         .HasColumnType("real");
 
-                    b.Property<int>("TransactionId")
+                    b.Property<int?>("SalesTransactionTransactionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionDetailId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -707,7 +710,9 @@ namespace RMS.Migrations
 
                     b.HasKey("AgentId");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("SalesTransactionTransactionId");
+
+                    b.HasIndex("TransactionDetailId");
 
                     b.HasIndex("UserId");
 
@@ -1319,9 +1324,13 @@ namespace RMS.Migrations
 
             modelBuilder.Entity("RMS.Models.Entities.SalesCommissionAgent", b =>
                 {
-                    b.HasOne("RMS.Models.Entities.SalesTransaction", "SalesTransaction")
+                    b.HasOne("RMS.Models.Entities.SalesTransaction", null)
                         .WithMany("SalesCommissionAgents")
-                        .HasForeignKey("TransactionId")
+                        .HasForeignKey("SalesTransactionTransactionId");
+
+                    b.HasOne("RMS.Models.Entities.SalesTransactionDetail", "SalesTransactionDetail")
+                        .WithMany("SalesCommissionAgents")
+                        .HasForeignKey("TransactionDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1331,7 +1340,7 @@ namespace RMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("SalesTransaction");
+                    b.Navigation("SalesTransactionDetail");
 
                     b.Navigation("User");
                 });
@@ -1654,6 +1663,8 @@ namespace RMS.Migrations
                     b.Navigation("CustomerLoyaltyRecords");
 
                     b.Navigation("ReturnandExchanges");
+
+                    b.Navigation("SalesCommissionAgents");
 
                     b.Navigation("ShippingDetails");
                 });

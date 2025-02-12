@@ -22,6 +22,7 @@
         public virtual ICollection<CustomerLoyaltyRecord> CustomerLoyaltyRecords { get;set; } = new List<CustomerLoyaltyRecord>();
         public virtual ICollection<ReturnandExchange> ReturnandExchanges { get; set; } = new List<ReturnandExchange>();
         public virtual ICollection<ShippingDetail> ShippingDetails { get; set; } = new List<ShippingDetail>();
+        public virtual ICollection<SalesCommissionAgent> SalesCommissionAgents { get; set; } = new List<SalesCommissionAgent>();
     }
 
 }
