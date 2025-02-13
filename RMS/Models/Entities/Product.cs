@@ -10,11 +10,11 @@
         public string SKU { get; set; }
         public string ImageURL { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
-        public int TaxId { get; set; }
-        public int BrandId { get; set; }
-        public int DiscountId { get; set; }
+        public int? TaxId { get; set; }
+        public int? BrandId { get; set; }
+        public int? DiscountId { get; set; }
         public virtual Discount Discount { get; set; }
         public virtual Category Category { get; set; }
         public virtual Brand Brand { get; set; }
