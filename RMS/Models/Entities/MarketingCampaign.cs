@@ -11,7 +11,7 @@
         public ActionTaken ActionTaken { get; set; }
 
         //public virtual ICollection<CampaignTargetRecord> CampaignTargetRecords { get; set; } = new List<CampaignTargetRecord>();
-        public virtual ICollection<SalesTransactionDetail> SalesTransactionDetails { get; set; } = new List<SalesTransactionDetail>();
+        public IList<SalesTransactionDetail> SalesTransactionDetails { get;  } = new List<SalesTransactionDetail>();
     }
 }
 

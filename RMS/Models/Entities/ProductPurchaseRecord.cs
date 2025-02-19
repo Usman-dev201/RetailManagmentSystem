@@ -8,14 +8,14 @@
         public int PurchaseId { get; set; } 
         public int SupplierId { get; set; } 
         public int LocationId { get; set; } 
-        public virtual Product Product { get; set; }
-        public virtual PurchaseRecord PurchaseRecord { get; set; }
-        public virtual Supplier Supplier { get; set; }
-        public virtual Location Location { get; set; }
+        public  Product Product { get; set; }
+        public  PurchaseRecord PurchaseRecord { get; set; }
+        public Supplier Supplier { get; set; }
+        public  Location Location { get; set; }
 
-        public virtual ICollection<Stock> Stocks { get; set; } = new List<Stock>();
-        public virtual ICollection<PurchaseReturn> PurchaseReturns { get; set; } = new List<PurchaseReturn>();
-        public virtual ICollection<ExpenseTracking> ExpenseTrackings { get; set; } = new List<ExpenseTracking>();
+        public  IList<Stock> Stocks { get; } = new List<Stock>();
+        public IList<PurchaseReturn> PurchaseReturns { get; } = new List<PurchaseReturn>();
+        public IList<ExpenseTracking> ExpenseTrackings { get;  } = new List<ExpenseTracking>();
 
 
     }

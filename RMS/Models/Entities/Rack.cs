@@ -9,8 +9,8 @@
 
         public int LocationId { get; set; }
 
-        public virtual Location Location { get; set; }
+        public Location Location { get; set; }
 
-        public virtual ICollection<RackProductRecord> RacksProductRecords { get; set; } = new List<RackProductRecord>();
+        public IList<RackProductRecord> RacksProductRecords { get;  } = new List<RackProductRecord>();
     }
 }

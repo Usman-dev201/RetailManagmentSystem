@@ -17,6 +17,7 @@ namespace RMS.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Tax> Taxes { get; set; }
+        public DbSet<ProductTaxRecord> ProductTaxRecords { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<PurchaseRecord> PurchaseRecords { get; set; }
 
@@ -112,12 +113,7 @@ namespace RMS.Models
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Product>()
-                .HasOne(t => t.Tax) 
-                .WithMany(t => t.Products)
-                
-                .HasForeignKey(t => t.TaxId)
-             .OnDelete(DeleteBehavior.Restrict);
+           
             modelBuilder.Entity<Product>()
                 .HasOne(d => d.Discount)
                 .WithMany(p => p.Products)
@@ -126,6 +122,24 @@ namespace RMS.Models
 
             ////////////////////////////////////////////
             ///////////////////////////////////////////
+            modelBuilder.Entity<ProductTaxRecord>()
+                .HasKey(p => p.ProductId);
+            modelBuilder.Entity<ProductTaxRecord>()
+                .Property(p => p.ProductId)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<ProductTaxRecord>()
+                .HasOne(p => p.Product)
+                .WithMany(ptr => ptr.ProductTaxRecords)
+                .HasForeignKey(p => p.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ProductTaxRecord>()
+               .HasOne(t=>t.Tax)
+               .WithMany(ptr => ptr.ProductTaxRecords)
+               .HasForeignKey(t=>t.TaxId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            ////////////////////////////////////////////
+            ////////////////////////////////////////
 
             modelBuilder.Entity<Category>()
                 .HasKey(c => c.CategoryId);

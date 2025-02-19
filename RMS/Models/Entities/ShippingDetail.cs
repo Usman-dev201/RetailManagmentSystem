@@ -4,9 +4,9 @@
     {
         public int ShippingId { get; set; }
         public int TransactionDetailId { get; set; }
-        public virtual SalesTransactionDetail SalesTransactionDetail { get; set; }
+        public  SalesTransactionDetail SalesTransactionDetail { get; set; }
         public int TransferId { get; set; }
-        public virtual StockTransfer StockTransfer { get; set; }
+        public  StockTransfer StockTransfer { get; set; }
 
         public ShippingMethod ShippingMethod { get; set; }
         public float ShippingCost { get; set; }

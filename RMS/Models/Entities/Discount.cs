@@ -12,9 +12,9 @@
         public float MinimumPurchaseAmount { get; set; }
         public float MaxDiscountLimit { get; set; }
         public DiscountStatus Status { get; set; }
-        public virtual ICollection<SalesTransactionDetail> SalesTransactionDetails { get; set; } = new List<SalesTransactionDetail>();
-        public virtual ICollection<DraftOrderDetail> DraftOrderDetails { get; set; } = new List<DraftOrderDetail>();
-        public virtual ICollection<Product> Products { get; set; }  = new List<Product>();
+        public IList<SalesTransactionDetail> SalesTransactionDetails { get;  } = new List<SalesTransactionDetail>();
+        public  IList<DraftOrderDetail> DraftOrderDetails { get;  } = new List<DraftOrderDetail>();
+        public  IList<Product> Products { get;}  = new List<Product>();
     }
     public enum DiscountStatus
     {

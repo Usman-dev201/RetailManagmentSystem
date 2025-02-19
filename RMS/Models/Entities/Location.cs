@@ -7,14 +7,14 @@
         public string LocationName { get; set; }
 
         public string LoctionAddress { get; set; }
-        public virtual ICollection<Tax> Taxes { get; set; } = new List<Tax>();
-        public virtual ICollection<ProductPurchaseRecord> ProductPurchaseRecords { get; set; } = new List<ProductPurchaseRecord>();
+        public  IList<Tax> Taxes { get; } = new List<Tax>();
+        public  IList<ProductPurchaseRecord> ProductPurchaseRecords { get;  } = new List<ProductPurchaseRecord>();
 
-        public virtual ICollection<Rack> Racks { get; set; } = new List<Rack>();
-        public virtual ICollection<StockTransfer> FromStockTransfers { get; set; } = new List<StockTransfer>();
-        public virtual ICollection<StockTransfer> ToStockTransfers { get; set; } = new List<StockTransfer>();
+        public  IList<Rack> Racks { get;  } = new List<Rack>();
+        public  IList<StockTransfer> FromStockTransfers { get;} = new List<StockTransfer>();
+        public  IList<StockTransfer> ToStockTransfers { get;  } = new List<StockTransfer>();
 
-        public virtual ICollection<StockAdjustment> StockAdjustments { get; set; } = new List<StockAdjustment>();
+        public IList<StockAdjustment> StockAdjustments { get; } = new List<StockAdjustment>();
 
     }
 }

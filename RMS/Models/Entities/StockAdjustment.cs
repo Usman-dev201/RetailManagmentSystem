@@ -12,14 +12,14 @@ namespace RMS.Models.Entities
         public string Reason { get; set; }
         public int LocationId { get; set; }
 
-        public virtual Location Location { get; set; }
+        public Location Location { get; set; }
     
 
         public int PurchaseReturnId { get; set; }
-        public virtual PurchaseReturn PurchaseReturn { get; set; }
+        public PurchaseReturn PurchaseReturn { get; set; }
         public int SalesReturnId { get; set; }
-        public virtual ReturnandExchange ReturnandExchange { get; set; }
-        public ICollection<Stock> Stocks { get; set; } = new List<Stock>();
+        public ReturnandExchange ReturnandExchange { get; set; }
+        public IList<Stock> Stocks { get;  } = new List<Stock>();
 
     }
     public enum AdjustmentType

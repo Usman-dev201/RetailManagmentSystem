@@ -6,11 +6,11 @@
 
         public int RackId { get; set; }
 
-        public virtual Rack Rack { get; set; }
+        public Rack Rack { get; set; }
 
         public int ProductId { get; set; }
 
-        public virtual Product Product { get; set; }
+        public  Product Product { get; set; }
 
     }
 }

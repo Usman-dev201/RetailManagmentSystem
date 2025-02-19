@@ -10,6 +10,6 @@
 
         public string Address { get; set; }
 
-        public virtual ICollection<ProductPurchaseRecord> ProductPurchaseRecords { get; set; } = new List<ProductPurchaseRecord>();
+        public IList<ProductPurchaseRecord> ProductPurchaseRecords { get;  } = new List<ProductPurchaseRecord>();
     }
 }

@@ -13,8 +13,8 @@
         public string ShippingAddress { get; set; }
         public float CreditLimit { get; set; }
         
-        public virtual ICollection<SalesTransaction> SalesTransactions { get; set; } = new List<SalesTransaction>();
+        public  IList<SalesTransaction> SalesTransactions { get; } = new List<SalesTransaction>();
 
-        public virtual ICollection<DraftOrder> DraftOrders { get; set; } = new List<DraftOrder>();
+        public IList<DraftOrder> DraftOrders { get; } = new List<DraftOrder>();
     }
 }

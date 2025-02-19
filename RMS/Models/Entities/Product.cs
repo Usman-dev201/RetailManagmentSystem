@@ -12,18 +12,20 @@
 
         public int? CategoryId { get; set; }
 
-        public int? TaxId { get; set; }
+      
         public int? BrandId { get; set; }
         public int? DiscountId { get; set; }
-        public virtual Discount Discount { get; set; }
-        public virtual Category Category { get; set; }
-        public virtual Brand Brand { get; set; }
-        public virtual Tax Tax { get; set; }
+        public Discount Discount { get; set; }
+        public AddCategory Category { get; set; }
+        public  AddBrand Brand { get; set; }
+       
 
         public DateTime CreatedAt { get; set; }
 
-        public virtual ICollection<ProductPurchaseRecord> ProductPurchaseRecords { get; set; } = new List<ProductPurchaseRecord>();
-        public virtual ICollection<RackProductRecord> RacksProductRecords { get; set;} = new List<RackProductRecord>();
-        public virtual ICollection<DraftOrderDetail> DraftOrderDetails { get; set; } = new List<DraftOrderDetail>();
+        public IList<ProductPurchaseRecord> ProductPurchaseRecords { get;  } = new List<ProductPurchaseRecord>();
+        public  IList<RackProductRecord> RacksProductRecords { get;} = new List<RackProductRecord>();
+        public  IList<DraftOrderDetail> DraftOrderDetails { get;  } = new List<DraftOrderDetail>();
+      
+        public IList<ProductTaxRecord> ProductTaxRecords { get; } = new List<ProductTaxRecord>();
     }
 }

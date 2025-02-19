@@ -23,7 +23,7 @@ namespace RMS.Models.Entities
         public float  AmountPaid { get; set; }
         public float PaymentDue { get; set; }
 
-        public virtual ICollection<ProductPurchaseRecord> ProductPurchaseRecords { get; set; } = new List<ProductPurchaseRecord>();
+        public  IList<ProductPurchaseRecord> ProductPurchaseRecords { get;  } = new List<ProductPurchaseRecord>();
     }
 
     public enum PurchaseStatus

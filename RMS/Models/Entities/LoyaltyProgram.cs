@@ -8,6 +8,6 @@
         public DateTime EndDate { get; set; }
         public float DiscountPrercentage { get; set; }
         public int PointsPrePurchase { get; set; }
-        public virtual ICollection<CustomerLoyaltyRecord> CustomerLoyaltyRecords { get; set; } = new List<CustomerLoyaltyRecord>();
+        public  IList<CustomerLoyaltyRecord> CustomerLoyaltyRecords { get; } = new List<CustomerLoyaltyRecord>();
     }
 }

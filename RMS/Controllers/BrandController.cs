@@ -15,10 +15,10 @@ namespace RMS.Controllers
         {
             _context = context;
         }
-        private static List<Brand> brands = new List<Brand>();
+        private static List<AddBrand> brands = new List<AddBrand>();
 
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<AddBrand>> PostBrand(AddBrand brand)
         {
             _context.Brands.Add(brand);
             await _context.SaveChangesAsync();

@@ -9,11 +9,11 @@
         public string UserPhone { get; set; }
         public string Address { get; set; }
         public int RoleId { get; set; }
-        public virtual Role Role { get; set; }
+        public  Role Role { get; set; }
         public DateTime Cretaedat { get; set; }
         public DateTime Updatedat {  get; set; }
-        public virtual ICollection<SalesTransaction> SalesTransactions { get; set; } = new List<SalesTransaction>();
-        public virtual ICollection<SalesCommissionAgent> SalesCommissionAgents { get; set; } = new List<SalesCommissionAgent>();
+        public  IList<SalesTransaction> SalesTransactions { get;  } = new List<SalesTransaction>();
+        public IList<SalesCommissionAgent> SalesCommissionAgents { get; } = new List<SalesCommissionAgent>();
 
     }
 }

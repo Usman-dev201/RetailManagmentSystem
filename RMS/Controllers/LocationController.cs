@@ -22,7 +22,10 @@ namespace RMS.Controllers
             _context.Locations.Add(location);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(PostLocation), new { id = location.LocationId }, location);
+            return CreatedAtAction(
+                nameof(PostLocation), 
+                new { id = location.LocationId }, 
+                location);
         }
     }
 }
