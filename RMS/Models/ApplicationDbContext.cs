@@ -25,7 +25,7 @@ namespace RMS.Models
         public DbSet<ProductPurchaseRecord> ProductPurchaseRecords { get; set; }
 
         public DbSet<Rack> Racks { get; set; }
-        public DbSet<RackProductRecord> RackProductRecords { get; set; }
+        
 
         public DbSet<Stock> Stocks { get; set; }
 
@@ -123,9 +123,9 @@ namespace RMS.Models
             ////////////////////////////////////////////
             ///////////////////////////////////////////
             modelBuilder.Entity<ProductTaxRecord>()
-                .HasKey(p => p.ProductId);
+                .HasKey(p => p.ProductTaxRecordId);
             modelBuilder.Entity<ProductTaxRecord>()
-                .Property(p => p.ProductId)
+                .Property(p => p.ProductTaxRecordId)
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<ProductTaxRecord>()
                 .HasOne(p => p.Product)
@@ -240,18 +240,22 @@ namespace RMS.Models
 
             /////////////////////////////
             //////////////////////////////
-            modelBuilder.Entity<RackProductRecord>()
-                .HasKey(rp => rp.RackProductId);
 
-            modelBuilder.Entity<RackProductRecord>()
-                .Property(rp => rp.RackProductId)
-                .ValueGeneratedOnAdd();
-            modelBuilder.Entity<RackProductRecord>()
-                .HasOne(r =>r.Rack)
-                .WithMany(rp =>rp.RacksProductRecords)
-                .HasForeignKey(r => r.RackId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+            modelBuilder.Entity<Rack>()
+                .HasMany(p => p.Products)
+                .WithMany(r => r.Racks)
+                .UsingEntity<Dictionary<string, object>>(
+                "ProductRackRecord",
+                p=>p.HasOne<Product>()
+                .WithMany()
+                .HasForeignKey("ProductId")
+                .HasPrincipalKey(nameof(Product.ProductId)),
+                r=>r.HasOne<Rack>()
+                .WithMany()
+                .HasForeignKey("RackId")
+                .HasPrincipalKey(nameof(Rack.RackId)),
+                 sad => sad.HasKey("ProductId", "RackId")
+                );
             ////////////////////////////////
             //////////////////////////////
 
@@ -586,6 +590,11 @@ namespace RMS.Models
                .WithMany(et => et.ExpenseTrackings)
                .HasForeignKey(ec => ec.ExpenseCategoryId)
                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ExpenseTracking>()
+              .HasOne(pr=>pr.PurchaseReturn)
+              .WithMany(et => et.ExpenseTrackings)
+              .HasForeignKey(pr=>pr.PurchaseReturnId)
+              .OnDelete(DeleteBehavior.Restrict);
 
 
         }

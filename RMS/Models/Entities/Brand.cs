@@ -6,6 +6,6 @@
 
         public string BrandName { get; set; }
 
-        public IList<Product> Products { get; } = new List<Product>();
+        public IList<Product> Products { get; }  = new List<Product>();
     }
 }

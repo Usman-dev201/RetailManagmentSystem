@@ -164,6 +164,19 @@ namespace RMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    RoleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.RoleId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Suppliers",
                 columns: table => new
                 {
@@ -204,27 +217,41 @@ namespace RMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SalesTransactions",
+                name: "Products",
                 columns: table => new
                 {
-                    TransactionId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    TransactionDateandTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    ShippingStatus = table.Column<int>(type: "int", nullable: false),
-                    TotalItems = table.Column<int>(type: "int", nullable: false),
-                    PointsPerTransaction = table.Column<int>(type: "int", nullable: false)
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SellingPrice = table.Column<float>(type: "real", nullable: false),
+                    SKU = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    BrandId = table.Column<int>(type: "int", nullable: true),
+                    DiscountId = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SalesTransactions", x => x.TransactionId);
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
                     table.ForeignKey(
-                        name: "FK_SalesTransactions_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerId",
+                        name: "FK_Products_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "BrandId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_Discounts_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "Discounts",
+                        principalColumn: "DiscountId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -288,8 +315,7 @@ namespace RMS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TaxName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TaxPercentage = table.Column<float>(type: "real", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    EffectiveDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LocationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -303,48 +329,28 @@ namespace RMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Users",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    UserID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SellingPrice = table.Column<float>(type: "real", nullable: false),
-                    SKU = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    TaxId = table.Column<int>(type: "int", nullable: false),
-                    BrandId = table.Column<int>(type: "int", nullable: false),
-                    DiscountId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Passward = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    Cretaedat = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updatedat = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ProductId);
+                    table.PrimaryKey("PK_Users", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_Products_Brands_BrandId",
-                        column: x => x.BrandId,
-                        principalTable: "Brands",
-                        principalColumn: "BrandId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Products_Discounts_DiscountId",
-                        column: x => x.DiscountId,
-                        principalTable: "Discounts",
-                        principalColumn: "DiscountId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Products_Taxes_TaxId",
-                        column: x => x.TaxId,
-                        principalTable: "Taxes",
-                        principalColumn: "TaxId",
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -425,58 +431,85 @@ namespace RMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RackProductRecords",
+                name: "ProductRackRecord",
                 columns: table => new
                 {
-                    RackProductId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RackId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    RackId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RackProductRecords", x => x.RackProductId);
+                    table.PrimaryKey("PK_ProductRackRecord", x => new { x.ProductId, x.RackId });
                     table.ForeignKey(
-                        name: "FK_RackProductRecords_Products_ProductId",
+                        name: "FK_ProductRackRecord_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RackProductRecords_Racks_RackId",
+                        name: "FK_ProductRackRecord_Racks_RackId",
                         column: x => x.RackId,
                         principalTable: "Racks",
                         principalColumn: "RackId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductTaxRecords",
+                columns: table => new
+                {
+                    ProductTaxRecordId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    TaxId = table.Column<int>(type: "int", nullable: false),
+                    Effectivedate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductTaxRecords", x => x.ProductTaxRecordId);
+                    table.ForeignKey(
+                        name: "FK_ProductTaxRecords_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProductTaxRecords_Taxes_TaxId",
+                        column: x => x.TaxId,
+                        principalTable: "Taxes",
+                        principalColumn: "TaxId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExpenseTrackings",
+                name: "SalesTransactions",
                 columns: table => new
                 {
-                    ExpenseId = table.Column<int>(type: "int", nullable: false)
+                    TransactionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ExpenseCategoryId = table.Column<int>(type: "int", nullable: false),
-                    TotalAmout = table.Column<float>(type: "real", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    TransactionDateandTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentMethod = table.Column<int>(type: "int", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LotId = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ShippingStatus = table.Column<int>(type: "int", nullable: false),
+                    TotalItems = table.Column<int>(type: "int", nullable: false),
+                    PointsPerTransaction = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExpenseTrackings", x => x.ExpenseId);
+                    table.PrimaryKey("PK_SalesTransactions", x => x.TransactionId);
                     table.ForeignKey(
-                        name: "FK_ExpenseTrackings_ExpenseCategories_ExpenseCategoryId",
-                        column: x => x.ExpenseCategoryId,
-                        principalTable: "ExpenseCategories",
-                        principalColumn: "ExpenseCatergoryId",
+                        name: "FK_SalesTransactions_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ExpenseTrackings_ProductPurchaseRecords_ExpenseCategoryId",
-                        column: x => x.ExpenseCategoryId,
-                        principalTable: "ProductPurchaseRecords",
-                        principalColumn: "LotId",
+                        name: "FK_SalesTransactions_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -523,6 +556,43 @@ namespace RMS.Migrations
                         column: x => x.LotId,
                         principalTable: "ProductPurchaseRecords",
                         principalColumn: "LotId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExpenseTrackings",
+                columns: table => new
+                {
+                    ExpenseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ExpenseCategoryId = table.Column<int>(type: "int", nullable: false),
+                    TotalAmout = table.Column<float>(type: "real", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LotId = table.Column<int>(type: "int", nullable: false),
+                    PurchaseReturnId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExpenseTrackings", x => x.ExpenseId);
+                    table.ForeignKey(
+                        name: "FK_ExpenseTrackings_ExpenseCategories_ExpenseCategoryId",
+                        column: x => x.ExpenseCategoryId,
+                        principalTable: "ExpenseCategories",
+                        principalColumn: "ExpenseCatergoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExpenseTrackings_ProductPurchaseRecords_ExpenseCategoryId",
+                        column: x => x.ExpenseCategoryId,
+                        principalTable: "ProductPurchaseRecords",
+                        principalColumn: "LotId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ExpenseTrackings_PurchaseReturns_PurchaseReturnId",
+                        column: x => x.PurchaseReturnId,
+                        principalTable: "PurchaseReturns",
+                        principalColumn: "PurchaseReturnId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -696,6 +766,42 @@ namespace RMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SalesCommissionAgents",
+                columns: table => new
+                {
+                    AgentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    TransactionDetailId = table.Column<int>(type: "int", nullable: false),
+                    AgentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AgentAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactNo = table.Column<int>(type: "int", nullable: false),
+                    SalesCommissionPercentage = table.Column<float>(type: "real", nullable: false),
+                    SalesTransactionTransactionId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SalesCommissionAgents", x => x.AgentId);
+                    table.ForeignKey(
+                        name: "FK_SalesCommissionAgents_SalesTransactionDetails_TransactionDetailId",
+                        column: x => x.TransactionDetailId,
+                        principalTable: "SalesTransactionDetails",
+                        principalColumn: "TransactionDetailId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SalesCommissionAgents_SalesTransactions_SalesTransactionTransactionId",
+                        column: x => x.SalesTransactionTransactionId,
+                        principalTable: "SalesTransactions",
+                        principalColumn: "TransactionId");
+                    table.ForeignKey(
+                        name: "FK_SalesCommissionAgents_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ShippingDetails",
                 columns: table => new
                 {
@@ -831,6 +937,11 @@ namespace RMS.Migrations
                 column: "ExpenseCategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ExpenseTrackings_PurchaseReturnId",
+                table: "ExpenseTrackings",
+                column: "PurchaseReturnId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductPurchaseRecords_LocationId",
                 table: "ProductPurchaseRecords",
                 column: "LocationId");
@@ -851,6 +962,11 @@ namespace RMS.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductRackRecord_RackId",
+                table: "ProductRackRecord",
+                column: "RackId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandId",
                 table: "Products",
                 column: "BrandId");
@@ -866,24 +982,19 @@ namespace RMS.Migrations
                 column: "DiscountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_TaxId",
-                table: "Products",
+                name: "IX_ProductTaxRecords_ProductId",
+                table: "ProductTaxRecords",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductTaxRecords_TaxId",
+                table: "ProductTaxRecords",
                 column: "TaxId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseReturns_LotId",
                 table: "PurchaseReturns",
                 column: "LotId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RackProductRecords_ProductId",
-                table: "RackProductRecords",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RackProductRecords_RackId",
-                table: "RackProductRecords",
-                column: "RackId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Racks_LocationId",
@@ -899,6 +1010,21 @@ namespace RMS.Migrations
                 name: "IX_SaleCampaignRecords_CampaignId",
                 table: "SaleCampaignRecords",
                 column: "CampaignId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SalesCommissionAgents_SalesTransactionTransactionId",
+                table: "SalesCommissionAgents",
+                column: "SalesTransactionTransactionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SalesCommissionAgents_TransactionDetailId",
+                table: "SalesCommissionAgents",
+                column: "TransactionDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SalesCommissionAgents_UserId",
+                table: "SalesCommissionAgents",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SalesTransactionDetails_DiscountId",
@@ -925,6 +1051,11 @@ namespace RMS.Migrations
                 name: "IX_SalesTransactions_CustomerId",
                 table: "SalesTransactions",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SalesTransactions_UserId",
+                table: "SalesTransactions",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShippingDetails_TransactionDetailId",
@@ -982,6 +1113,11 @@ namespace RMS.Migrations
                 name: "IX_Taxes_LocationId",
                 table: "Taxes",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         /// <inheritdoc />
@@ -997,10 +1133,16 @@ namespace RMS.Migrations
                 name: "ExpenseTrackings");
 
             migrationBuilder.DropTable(
-                name: "RackProductRecords");
+                name: "ProductRackRecord");
+
+            migrationBuilder.DropTable(
+                name: "ProductTaxRecords");
 
             migrationBuilder.DropTable(
                 name: "SaleCampaignRecords");
+
+            migrationBuilder.DropTable(
+                name: "SalesCommissionAgents");
 
             migrationBuilder.DropTable(
                 name: "ShippingDetails");
@@ -1019,6 +1161,9 @@ namespace RMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "Racks");
+
+            migrationBuilder.DropTable(
+                name: "Taxes");
 
             migrationBuilder.DropTable(
                 name: "MarketingCampaigns");
@@ -1051,10 +1196,19 @@ namespace RMS.Migrations
                 name: "DraftOrders");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "ProductPurchaseRecords");
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Products");
@@ -1073,12 +1227,6 @@ namespace RMS.Migrations
 
             migrationBuilder.DropTable(
                 name: "Discounts");
-
-            migrationBuilder.DropTable(
-                name: "Taxes");
-
-            migrationBuilder.DropTable(
-                name: "Locations");
         }
     }
 }

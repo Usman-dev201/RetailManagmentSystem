@@ -1,8 +1,9 @@
-﻿namespace RMS.Models.Entities
+﻿using RMS.Models.Entities;
+
+namespace RMS.AddModels.AddEntities
 {
-    public class MarketingCampaign
+    public class AddMarketingCampaign
     {
-        public int CampaignId { get; set; }
         public string CampaignName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -11,7 +12,7 @@
         public ActionTaken ActionTaken { get; set; }
 
         //public virtual ICollection<CampaignTargetRecord> CampaignTargetRecords { get; set; } = new List<CampaignTargetRecord>();
-        public IList<SalesTransactionDetail> SalesTransactionDetails { get;  } = new List<SalesTransactionDetail>();
+        public IList<SalesTransactionDetail> SalesTransactionDetails { get; } = new List<SalesTransactionDetail>();
     }
     public enum CampaignStatus
     {

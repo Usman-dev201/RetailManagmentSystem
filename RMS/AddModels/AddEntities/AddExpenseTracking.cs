@@ -1,18 +1,17 @@
-﻿namespace RMS.Models.Entities
+﻿using RMS.Models.Entities;
+
+namespace RMS.AddModels.AddEntities
 {
-    public class ExpenseTracking
+    public class AddExpenseTracking
     {
-        public int ExpenseId { get; set; }
         public int ExpenseCategoryId { get; set; }
-        public  ExpenseCategory ExpenseCategory { get; set; }    
+        public ExpenseCategory ExpenseCategory { get; set; }
         public float TotalAmout { get; set; }
         public MethodofPayment PaymentMethod { get; set; }
         public string Notes { get; set; }
-        public DateTime Date {  get; set; }
+        public DateTime Date { get; set; }
         public int LotId { get; set; }
-        public  ProductPurchaseRecord ProductPurchaseRecord { get; set; }
-        public int PurchaseReturnId { get; set; }
-        public PurchaseReturn PurchaseReturn { get; set; }
+        public ProductPurchaseRecord ProductPurchaseRecord { get; set; }
 
     }
     public enum MethodofPayment
@@ -24,4 +23,6 @@
         MobilePayment,
         Check
     }
+
 }
+

@@ -8,7 +8,7 @@
         public DiscountType DiscountType { get; set; }
         public float DiscountAmount { get; set; }
         public DateTime ValidFrom { get; set; } 
-        public DateTime ValidUntil { get; set; }
+        public string ValidUntil { get; set; }
         public float MinimumPurchaseAmount { get; set; }
         public float MaxDiscountLimit { get; set; }
         public DiscountStatus Status { get; set; }

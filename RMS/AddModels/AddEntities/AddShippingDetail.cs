@@ -1,22 +1,23 @@
-﻿namespace RMS.Models.Entities
+﻿using RMS.Models.Entities;
+
+namespace RMS.AddModels.AddEntities
 {
-    public class ShippingDetail
+    public class AddShippingDetail
     {
-        public int ShippingId { get; set; }
         public int TransactionDetailId { get; set; }
-        public  SalesTransactionDetail SalesTransactionDetail { get; set; }
+        public SalesTransactionDetail SalesTransactionDetail { get; set; }
         public int TransferId { get; set; }
-        public  StockTransfer StockTransfer { get; set; }
+        public StockTransfer StockTransfer { get; set; }
 
         public ShippingMethod ShippingMethod { get; set; }
         public float ShippingCost { get; set; }
         public string EstimatedDeliveryDate { get; set; }
         public ShipStatus Status { get; set; }
-        public string CourierService {  get; set; }
+        public string CourierService { get; set; }
         public string DestinationAddress { get; set; }
         public int Quantity { get; set; }
-       
-       
+
+
     }
     public enum ShipStatus
     {
@@ -34,6 +35,6 @@
         Express,
         Overnight,
         SameDay
-        
+
     }
 }

@@ -12,8 +12,8 @@ using RMS.Models;
 namespace RMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250210182145_rms")]
-    partial class rms
+    [Migration("20250221181602_rms3")]
+    partial class rms3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace RMS.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ProductRackRecord", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RackId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "RackId");
+
+                    b.HasIndex("RackId");
+
+                    b.ToTable("ProductRackRecord");
+                });
 
             modelBuilder.Entity("RMS.Models.Entities.Brand", b =>
                 {
@@ -198,8 +213,9 @@ namespace RMS.Migrations
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ValidUntil")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ValidUntil")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DiscountId");
 
@@ -323,12 +339,17 @@ namespace RMS.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
+                    b.Property<int>("PurchaseReturnId")
+                        .HasColumnType("int");
+
                     b.Property<float>("TotalAmout")
                         .HasColumnType("real");
 
                     b.HasKey("ExpenseId");
 
                     b.HasIndex("ExpenseCategoryId");
+
+                    b.HasIndex("PurchaseReturnId");
 
                     b.ToTable("ExpenseTrackings");
                 });
@@ -424,16 +445,16 @@ namespace RMS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<int>("BrandId")
+                    b.Property<int?>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DiscountId")
+                    b.Property<int?>("DiscountId")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageURL")
@@ -455,9 +476,6 @@ namespace RMS.Migrations
                     b.Property<float>("SellingPrice")
                         .HasColumnType("real");
 
-                    b.Property<int>("TaxId")
-                        .HasColumnType("int");
-
                     b.HasKey("ProductId");
 
                     b.HasIndex("BrandId");
@@ -465,8 +483,6 @@ namespace RMS.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("DiscountId");
-
-                    b.HasIndex("TaxId");
 
                     b.ToTable("Products");
                 });
@@ -502,6 +518,32 @@ namespace RMS.Migrations
                     b.HasIndex("SupplierId");
 
                     b.ToTable("ProductPurchaseRecords");
+                });
+
+            modelBuilder.Entity("RMS.Models.Entities.ProductTaxRecord", b =>
+                {
+                    b.Property<int>("ProductTaxRecordId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductTaxRecordId"));
+
+                    b.Property<DateTime>("Effectivedate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaxId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductTaxRecordId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("TaxId");
+
+                    b.ToTable("ProductTaxRecords");
                 });
 
             modelBuilder.Entity("RMS.Models.Entities.PurchaseRecord", b =>
@@ -606,29 +648,6 @@ namespace RMS.Migrations
                     b.ToTable("Racks");
                 });
 
-            modelBuilder.Entity("RMS.Models.Entities.RackProductRecord", b =>
-                {
-                    b.Property<int>("RackProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RackProductId"));
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RackId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RackProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("RackId");
-
-                    b.ToTable("RackProductRecords");
-                });
-
             modelBuilder.Entity("RMS.Models.Entities.ReturnandExchange", b =>
                 {
                     b.Property<int>("SalesReturnId")
@@ -663,6 +682,65 @@ namespace RMS.Migrations
                     b.ToTable("ReturnandExchanges");
                 });
 
+            modelBuilder.Entity("RMS.Models.Entities.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("RMS.Models.Entities.SalesCommissionAgent", b =>
+                {
+                    b.Property<int>("AgentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AgentId"));
+
+                    b.Property<string>("AgentAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AgentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ContactNo")
+                        .HasColumnType("int");
+
+                    b.Property<float>("SalesCommissionPercentage")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("SalesTransactionTransactionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AgentId");
+
+                    b.HasIndex("SalesTransactionTransactionId");
+
+                    b.HasIndex("TransactionDetailId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SalesCommissionAgents");
+                });
+
             modelBuilder.Entity("RMS.Models.Entities.SalesTransaction", b =>
                 {
                     b.Property<int>("TransactionId")
@@ -692,9 +770,14 @@ namespace RMS.Migrations
                     b.Property<DateTime>("TransactionDateandTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("TransactionId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("SalesTransactions");
                 });
@@ -943,9 +1026,6 @@ namespace RMS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxId"));
 
-                    b.Property<DateTime>("EffectiveDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
@@ -961,6 +1041,50 @@ namespace RMS.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("Taxes");
+                });
+
+            modelBuilder.Entity("RMS.Models.Entities.User", b =>
+                {
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Cretaedat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Passward")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Updatedat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserID");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SaleCampaignRecords", b =>
@@ -1006,6 +1130,21 @@ namespace RMS.Migrations
                     b.HasIndex("TransferId");
 
                     b.ToTable("StockTransferDetail");
+                });
+
+            modelBuilder.Entity("ProductRackRecord", b =>
+                {
+                    b.HasOne("RMS.Models.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RMS.Models.Entities.Rack", null)
+                        .WithMany()
+                        .HasForeignKey("RackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RMS.Models.Entities.CustomerFeedback", b =>
@@ -1090,9 +1229,17 @@ namespace RMS.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("RMS.Models.Entities.PurchaseReturn", "PurchaseReturn")
+                        .WithMany("ExpenseTrackings")
+                        .HasForeignKey("PurchaseReturnId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("ExpenseCategory");
 
                     b.Navigation("ProductPurchaseRecord");
+
+                    b.Navigation("PurchaseReturn");
                 });
 
             modelBuilder.Entity("RMS.Models.Entities.Product", b =>
@@ -1100,34 +1247,23 @@ namespace RMS.Migrations
                     b.HasOne("RMS.Models.Entities.Brand", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("RMS.Models.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("RMS.Models.Entities.Discount", "Discount")
                         .WithMany("Products")
                         .HasForeignKey("DiscountId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RMS.Models.Entities.Tax", "Tax")
-                        .WithMany("Products")
-                        .HasForeignKey("TaxId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
 
                     b.Navigation("Discount");
-
-                    b.Navigation("Tax");
                 });
 
             modelBuilder.Entity("RMS.Models.Entities.ProductPurchaseRecord", b =>
@@ -1165,6 +1301,25 @@ namespace RMS.Migrations
                     b.Navigation("Supplier");
                 });
 
+            modelBuilder.Entity("RMS.Models.Entities.ProductTaxRecord", b =>
+                {
+                    b.HasOne("RMS.Models.Entities.Product", "Product")
+                        .WithMany("ProductTaxRecords")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("RMS.Models.Entities.Tax", "Tax")
+                        .WithMany("ProductTaxRecords")
+                        .HasForeignKey("TaxId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Tax");
+                });
+
             modelBuilder.Entity("RMS.Models.Entities.PurchaseReturn", b =>
                 {
                     b.HasOne("RMS.Models.Entities.ProductPurchaseRecord", "ProductPurchaseRecord")
@@ -1187,25 +1342,6 @@ namespace RMS.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("RMS.Models.Entities.RackProductRecord", b =>
-                {
-                    b.HasOne("RMS.Models.Entities.Product", "Product")
-                        .WithMany("RacksProductRecords")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RMS.Models.Entities.Rack", "Rack")
-                        .WithMany("RacksProductRecords")
-                        .HasForeignKey("RackId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Rack");
-                });
-
             modelBuilder.Entity("RMS.Models.Entities.ReturnandExchange", b =>
                 {
                     b.HasOne("RMS.Models.Entities.SalesTransactionDetail", "SalesTransactionDetail")
@@ -1217,6 +1353,29 @@ namespace RMS.Migrations
                     b.Navigation("SalesTransactionDetail");
                 });
 
+            modelBuilder.Entity("RMS.Models.Entities.SalesCommissionAgent", b =>
+                {
+                    b.HasOne("RMS.Models.Entities.SalesTransaction", null)
+                        .WithMany("SalesCommissionAgents")
+                        .HasForeignKey("SalesTransactionTransactionId");
+
+                    b.HasOne("RMS.Models.Entities.SalesTransactionDetail", "SalesTransactionDetail")
+                        .WithMany("SalesCommissionAgents")
+                        .HasForeignKey("TransactionDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RMS.Models.Entities.User", "User")
+                        .WithMany("SalesCommissionAgents")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SalesTransactionDetail");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("RMS.Models.Entities.SalesTransaction", b =>
                 {
                     b.HasOne("RMS.Models.Entities.Customer", "Customer")
@@ -1225,7 +1384,15 @@ namespace RMS.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("RMS.Models.Entities.User", "User")
+                        .WithMany("SalesTransactions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Customer");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RMS.Models.Entities.SalesTransactionDetail", b =>
@@ -1350,6 +1517,17 @@ namespace RMS.Migrations
                     b.Navigation("Location");
                 });
 
+            modelBuilder.Entity("RMS.Models.Entities.User", b =>
+                {
+                    b.HasOne("RMS.Models.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("SaleCampaignRecords", b =>
                 {
                     b.HasOne("RMS.Models.Entities.MarketingCampaign", null)
@@ -1463,7 +1641,7 @@ namespace RMS.Migrations
 
                     b.Navigation("ProductPurchaseRecords");
 
-                    b.Navigation("RacksProductRecords");
+                    b.Navigation("ProductTaxRecords");
                 });
 
             modelBuilder.Entity("RMS.Models.Entities.ProductPurchaseRecord", b =>
@@ -1482,13 +1660,10 @@ namespace RMS.Migrations
 
             modelBuilder.Entity("RMS.Models.Entities.PurchaseReturn", b =>
                 {
+                    b.Navigation("ExpenseTrackings");
+
                     b.Navigation("StockAdjustment")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("RMS.Models.Entities.Rack", b =>
-                {
-                    b.Navigation("RacksProductRecords");
                 });
 
             modelBuilder.Entity("RMS.Models.Entities.ReturnandExchange", b =>
@@ -1497,8 +1672,15 @@ namespace RMS.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RMS.Models.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("RMS.Models.Entities.SalesTransaction", b =>
                 {
+                    b.Navigation("SalesCommissionAgents");
+
                     b.Navigation("SalesTransactionDetails");
                 });
 
@@ -1509,6 +1691,8 @@ namespace RMS.Migrations
                     b.Navigation("CustomerLoyaltyRecords");
 
                     b.Navigation("ReturnandExchanges");
+
+                    b.Navigation("SalesCommissionAgents");
 
                     b.Navigation("ShippingDetails");
                 });
@@ -1530,7 +1714,14 @@ namespace RMS.Migrations
 
             modelBuilder.Entity("RMS.Models.Entities.Tax", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("ProductTaxRecords");
+                });
+
+            modelBuilder.Entity("RMS.Models.Entities.User", b =>
+                {
+                    b.Navigation("SalesCommissionAgents");
+
+                    b.Navigation("SalesTransactions");
                 });
 #pragma warning restore 612, 618
         }

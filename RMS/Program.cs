@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+
 using RMS.Models;
+using RMS.Models.Entities;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(
     opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("default"))
     );
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
